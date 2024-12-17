@@ -1,50 +1,35 @@
-// 4 steps procedure to make server
+import express from "express";
+import dotenv from "dotenv";
+import authRoutes from "./routes/authRoutes.js";
+import postRoutes from "./routes/postRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import connectDb from "./connection.js";
+import cors from "cors";
 
-// Express ko bulna hoga is file me
-const express = require("express");
-const dotenv = require("dotenv");
-const { readdirSync } = require("fs");
-const { connectDb } = require("./connection");
-const cors = require("cors");
-// import the route here
-// const authRoute = require("./routes/authRoutes");
-
-// binding this env
 dotenv.config();
-// Express ko call karna padega ek variable me
+
 const app = express();
-// port define karna hoga - Port hota hai darwaja
-const port = process.env.PORT || 5000;
+
+const port = process.env.PORT;
 
 connectDb();
-// Making routes
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
+    origin: process.env.CLIENT_URL, // Allow your frontend origin
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Enable cookies or other credentials
   })
 );
 app.use(express.json());
-app.get("/", (req, res) => {
-  res.send("<center><h1>Server Running Dudes...</h1></center>");
-});
 
-// How to use routes
-// app.use("/api", authRoute);
+app.use("/api", authRoutes);
+app.use("/api", postRoutes);
+app.use("/api", paymentRoutes);
+app.use("/api", orderRoutes);
 
-// importing and using routes dyanmically
-readdirSync("./routes").map((route) =>
-  app.use("/api", require(`./routes/${route}`))
-);
-// console.log(readdirSync("./routes"))
-
-// types of requests
-// 1. GET -> To get the data from the server
-// 2. POST -> To post the data to the server
-// 3. PUT -> To update the data on the server
-// 4. DELETE -> To dete the data form the server
-
-// Server ko listen karna hoga
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
