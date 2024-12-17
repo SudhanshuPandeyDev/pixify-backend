@@ -1,45 +1,41 @@
-// Import necessary modules using CommonJS syntax
 const express = require("express");
 const dotenv = require("dotenv");
+const { connectDb } = require("./connection");
+const cors = require("cors");
 const authRoutes = require("./routes/authRoutes.js");
 const postRoutes = require("./routes/postRoutes.js");
 const paymentRoutes = require("./routes/paymentRoutes.js");
 const orderRoutes = require("./routes/orderRoutes.js");
-const connectDb = require("./connection.js");
-const cors = require("cors");
 
-// Load environment variables
+// binding this env
 dotenv.config();
-
-// Initialize Express app
+// Express ko call karna padega ek variable me
 const app = express();
+// port define karna hoga - Port hota hai darwaja
+const port = process.env.PORT || 5000;
 
-// Get the port from environment variables
-const port = process.env.PORT;
-
-// Connect to the database
 connectDb();
-
-// Set up CORS middleware
+// Making routes
 app.use(
   cors({
-    origin: process.env.CLIENT_URL, // Allow your frontend origin
-    methods: ["GET", "POST", "DELETE", "PUT"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // Enable cookies or other credentials
+    origin: process.env.CLIENT_URL,
+    credentials: true,
   })
 );
-
-// Middleware to parse JSON bodies
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("<center><h1>Server Running Dudes...</h1></center>");
+});
 
-// Define the API routes
+
 app.use("/api", authRoutes);
 app.use("/api", postRoutes);
 app.use("/api", paymentRoutes);
 app.use("/api", orderRoutes);
 
-// Start the server
+// 4. DELETE -> To dete the data form the server
+
+// Server ko listen karna hoga
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
