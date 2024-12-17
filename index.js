@@ -1,20 +1,26 @@
-import express from "express";
-import dotenv from "dotenv";
-import authRoutes from "./routes/authRoutes.js";
-import postRoutes from "./routes/postRoutes.js";
-import paymentRoutes from "./routes/paymentRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
-import connectDb from "./connection.js";
-import cors from "cors";
+// Import necessary modules using CommonJS syntax
+const express = require("express");
+const dotenv = require("dotenv");
+const authRoutes = require("./routes/authRoutes.js");
+const postRoutes = require("./routes/postRoutes.js");
+const paymentRoutes = require("./routes/paymentRoutes.js");
+const orderRoutes = require("./routes/orderRoutes.js");
+const connectDb = require("./connection.js");
+const cors = require("cors");
 
+// Load environment variables
 dotenv.config();
 
+// Initialize Express app
 const app = express();
 
+// Get the port from environment variables
 const port = process.env.PORT;
 
+// Connect to the database
 connectDb();
 
+// Set up CORS middleware
 app.use(
   cors({
     origin: process.env.CLIENT_URL, // Allow your frontend origin
@@ -23,13 +29,17 @@ app.use(
     credentials: true, // Enable cookies or other credentials
   })
 );
+
+// Middleware to parse JSON bodies
 app.use(express.json());
 
+// Define the API routes
 app.use("/api", authRoutes);
 app.use("/api", postRoutes);
 app.use("/api", paymentRoutes);
 app.use("/api", orderRoutes);
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
