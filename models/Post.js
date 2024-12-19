@@ -40,5 +40,10 @@ const postSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+postSchema.index({ author: 1 });
+postSchema.index({ price: 1 });
+postSchema.index({ authorId: 1 });
+postSchema.index({ purchasedBy: 1 });
+
 const Post = mongoose.model("Post", postSchema);
 module.exports = Post;
