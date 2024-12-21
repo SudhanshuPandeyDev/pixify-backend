@@ -7,9 +7,9 @@ const postRoutes = require("./routes/postRoutes.js");
 const paymentRoutes = require("./routes/paymentRoutes.js");
 const orderRoutes = require("./routes/orderRoutes.js");
 
-// binding this env
+
 dotenv.config();
-// Express ko call karna padega ek variable me
+
 const app = express();
 // port define karna hoga - Port hota hai darwaja
 const port = process.env.PORT || 5000;
@@ -33,9 +33,6 @@ app.use("/api", postRoutes);
 app.use("/api", paymentRoutes);
 app.use("/api", orderRoutes);
 
-// 4. DELETE -> To dete the data form the server
-
-// Server ko listen karna hoga
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
