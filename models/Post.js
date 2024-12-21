@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 
-// You can also write in the below way
-// const { Schema } = require("mongoose");
-// const postSchema = new Schema({});
 
 const postSchema = new mongoose.Schema(
   {
