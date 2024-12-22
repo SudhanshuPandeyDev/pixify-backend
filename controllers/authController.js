@@ -68,7 +68,7 @@ const login = async (req, res) => {
 };
 
 const refresh = async (req, res) => {
-  const authHeader = req.headers["authorization"];
+  const authHeader = req.headers.authorization;
 
   const token = authHeader && authHeader.split(" ")[1];
 
