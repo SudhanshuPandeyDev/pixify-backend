@@ -5,7 +5,7 @@
 
 ## 🚀 Live Website
 
-- [Pixify - Live Website](https://pixify-frontend-mocha.vercel.app)
+- [Pixify - Live Website](https://pixify-frontend-steel.vercel.app/)
 
 
 ## 🛠️ Technologies Used
